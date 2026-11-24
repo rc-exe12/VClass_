@@ -1,82 +1,163 @@
 # VCLASS — Virtual Classroom Management System Using Java Swing
 
-This starter contains a Swing login, MySQL JDBC configuration, and a separate connection check. The application uses Java 17, Swing, JDBC, and MySQL. Maven only downloads the MySQL JDBC driver and compiles the project; there is no Spring Boot or web framework.
+A Java Swing-based Virtual Classroom Management System developed using **Java 17, JDBC, Maven, and MySQL**. VClass provides a desktop application for managing students, faculty, courses, assignments, and submissions.
 
-## 1. Open in VS Code
+## 1. Project Overview
 
-Install the **Extension Pack for Java** and **Maven for Java**, then use **File → Open Folder** to open this project. Accept the Java project import prompt. Java 17 and Maven are available in this environment.
+VClass is designed to simplify classroom management through a centralized desktop application. It includes user authentication, role-based dashboards, academic record management, and assignment submission functionality.
 
-## 2. Create the MySQL database
+## 2. Technologies Used
 
-Start your MySQL server. Open `database/schema.sql` in MySQL Workbench and execute it, or run this from PowerShell:
+- **Java 17** – Core programming language
+- **Java Swing** – Desktop graphical user interface
+- **JDBC** – Database connectivity
+- **MySQL** – Database management
+- **Apache Maven** – Dependency and build management
+- **VS Code** – Development environment
 
-```powershell
-mysql -u root -p -e "source database/schema.sql"
+## 3. Features
+
+- User login and authentication
+- Role-based dashboards
+- Student management
+- Faculty management
+- Course management
+- Assignment creation and management
+- Student assignment submissions
+- File uploads with a 25 MB size limit
+- MySQL database integration
+- Secure database configuration using local properties
+
+## 4. Installation and Setup
+
+### Prerequisites
+
+- Java JDK 17
+- Apache Maven
+- MySQL Server
+- Visual Studio Code (recommended)
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/rc-exe12/VClass_.git
+cd VClass_
 ```
 
-The script creates `vclass_swing_db`, the `users`, `students`, `faculty`, `courses`, `enrollments`, `assignments`, `attendance`, and `submissions` tables, and demo admin credentials: **admin@vclass.com** / **admin123**. Change the demo password before using real accounts.
+### Step 2: Create the MySQL Database
 
-## 3. Configure JDBC
+Start your MySQL server and execute:
 
-Copy `database.properties.example` to `database.properties` in the project root. Set `db.username` and `db.password` for your local MySQL account. The local config is ignored by Git. The sample URL expects MySQL at `localhost:3306`.
-
-## 4. Check the database connection
-
-Open `src/main/java/com/vclass/util/DatabaseConnectionTest.java` and click **Run** above `main`, or select **Test MySQL Connection** in Run and Debug. Or run:
-
-```powershell
-mvn compile
-mvn exec:java -Dexec.mainClass="com.vclass.util.DatabaseConnectionTest"
+```sql
+source database/schema.sql;
 ```
 
-The check prints the MySQL server version and selected database. If Maven's `exec:java` goal is not available, use the VS Code Java run configuration.
+Alternatively, open `database/schema.sql` in MySQL Workbench and execute it.
 
-## 5. Launch login
+The script creates the `vclass_swing_db` database and the required tables.
 
-Open `src/main/java/com/vclass/Main.java` and click **Run** above `main`, or choose **VCLASS Login** in Run and Debug. Sign in with the demo credentials. The login uses JDBC `PreparedStatement` and checks the SHA-256 hash stored in MySQL. On success it shows the user's name and role; the next step is the role dashboard using `CardLayout`.
+Demo admin credentials:
 
-## Source layout
+- Email: `admin@vclass.com`
+- Password: `admin123`
 
-- `src/main/java/com/vclass/Main.java` — application entry point
-- `src/main/java/com/vclass/db/DBConnection.java` — reads JDBC settings
-- `src/main/java/com/vclass/model/User.java` — signed-in user model
-- `src/main/java/com/vclass/service/AuthService.java` — prepared login query
-- `src/main/java/com/vclass/ui/LoginFrame.java` — grayscale Swing login screen
-- `src/main/java/com/vclass/ui/DashboardFrame.java` — role-based dashboard with CardLayout
-- `src/main/java/com/vclass/ui/StudentManagementPanel.java` — Admin student list and account actions
-- `src/main/java/com/vclass/ui/FacultyManagementPanel.java` — Admin faculty list and account actions
-- `src/main/java/com/vclass/model/FacultyRecord.java` — faculty row data
-- `src/main/java/com/vclass/service/FacultyRepository.java` — JDBC faculty queries and transactions
-- `src/main/java/com/vclass/service/StudentRepository.java` — JDBC student queries and transactions
-- `src/main/java/com/vclass/util/DatabaseConnectionTest.java` — connection check
-- `src/main/java/com/vclass/util/PasswordUtil.java` — SHA-256 helper
-- `database/schema.sql` — database and demo account setup
+Change the demo password before using real accounts.
 
+For temporary role testing, execute `database/demo-accounts.sql` to create demo Faculty and Student accounts.
 
+### Step 3: Configure JDBC
 
-For temporary role testing, run database/demo-accounts.sql once in Workbench. It creates one demo Faculty and Student login; these sample accounts are for classroom testing only.
+Copy `database.properties.example` to `database.properties`.
 
+Update your local MySQL credentials:
 
+```properties
+db.username=your_username
+db.password=your_password
+```
 
+The sample connection expects MySQL at `localhost:3306`.
 
+**Important:** Never upload your actual `database.properties` file or database credentials to GitHub.
 
-- `src/main/java/com/vclass/ui/CourseManagementPanel.java` — Admin course list and account actions
-- `src/main/java/com/vclass/model/CourseRecord.java` — course row data
-- `src/main/java/com/vclass/service/CourseRepository.java` — JDBC course queries and transactions
-- `src/main/java/com/vclass/ui/AssignmentManagementPanel.java` — staff assignment creation and management
-- `src/main/java/com/vclass/ui/StudentAssignmentsPanel.java` — student assignment list and file submission
-- `src/main/java/com/vclass/service/AssignmentRepository.java` — JDBC assignment queries
-- `src/main/java/com/vclass/service/SubmissionRepository.java` — saves assignment submissions
-- `src/main/java/com/vclass/service/SubmissionFileStorage.java` — copies selected files into uploads
+### Step 4: Build the Project
 
+```bash
+mvn clean package
+```
 
-## Assignment file submission
+### Step 5: Run the Application
 
-Faculty and Admins can create assignments from their dashboard's **Assignment Management** section. Students can open **Assignments**, choose an assignment, and use **Choose file...** to attach a document. The chooser accepts all file types; files must be 25 MB or smaller.
+Open `src/main/java/com/vclass/Main.java` in VS Code and run the `main` method.
 
-The app copies each submitted file into `uploads/submissions/` using Java's `File` and stream classes, then stores the relative path in the MySQL `submissions.file_path` column. Re-submitting replaces the previous stored file. The `uploads/` folder is ignored by Git because it contains user-submitted files.
+Alternatively, use the configured Java run configuration.
 
+## 5. Project Structure
 
+```text
+VClass/
+├── database/
+│   ├── schema.sql
+│   └── demo-accounts.sql
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/vclass/
+│               ├── Main.java
+│               ├── db/
+│               ├── model/
+│               ├── service/
+│               ├── ui/
+│               └── util/
+├── database.properties.example
+├── pom.xml
+├── README.md
+└── CODE_GUIDE.md
+```
 
-For a function-by-function explanation of the source, read [CODE_GUIDE.md](CODE_GUIDE.md).
+## 6. Assignment File Submission
 
+Faculty and Admins can create assignments through the **Assignment Management** section.
+
+Students can:
+1. Open the Assignments section.
+2. Select an assignment.
+3. Choose a file using the file chooser.
+4. Submit the assignment.
+
+The application stores submitted files in `uploads/submissions/` and saves their relative paths in the MySQL database.
+
+Files are limited to 25 MB. The `uploads/` directory is excluded from Git because it contains user-submitted files.
+
+## 7. Source Code Documentation
+
+For a detailed function-by-function explanation of the source code, refer to [CODE_GUIDE.md](CODE_GUIDE.md).
+
+## 8. Project Team
+
+**Developed by – Team VClass**
+
+| S. No. | Name | Roll Number |
+|---|---|---|
+| 1 | Ramcharan Sai | 25R11A05FF |
+| 2 | Manikanta Ram | 25R11A05FD |
+| 3 | S. Navaneeth | 25R11A05EX |
+
+## 9. Academic Details
+
+- **Project Title:** Virtual Classroom Management System
+- **Project Name:** VCLASS
+- **College:** Geetanjali College of Engineering and Technology
+- **Academic Year:** 2025–2026
+
+## 10. Future Enhancements
+
+- Improved user interface and experience
+- Additional academic management features
+- Enhanced assignment tracking
+- Better reporting and analytics
+- Cloud-based deployment
+
+---
+
+**VCLASS — Making Virtual Classroom Management Simpler.**
