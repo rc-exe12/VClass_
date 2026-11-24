@@ -158,5 +158,3 @@ For a detailed function-by-function explanation of the source code, refer to [CO
 ---
 
 **VCLASS — Making Virtual Classroom Management Simpler.**
-
-**VCLASS — Making Virtual Classroom Management Simpler.**
