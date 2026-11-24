@@ -1,0 +1,63 @@
+target/
+database.properties
+
+uploads/
+
+# Java JDK bundled accidentally
+src/main/java/com/vclass/db/oracleJdk-27/
+
+# Build files
+target/
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Local database credentials
+database.properties
+
+# Java compiled files
+*.class
+target/
+work/classes/
+
+# Maven cache
+work/maven-repository/
+
+# Local configuration
+database.properties
+
+# IDE
+.idea/
+# Large backup archives
+*.zip
+
+# Java build files
+*.class
+target/
+work/classes/
+
+# Maven cache
+work/maven-repository/
+
+# Local configuration
+database.properties
+# Bundled JDK
+src/main/java/com/vclass/db/oracleJdk-27/
+
+# Maven build output
+target/
+work/classes/
+work/maven-repository/
+
+# Compiled Java files
+*.class
+
+# Backup archives
+*.zip
+
+# Local database configuration
+database.properties
