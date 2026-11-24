@@ -86,6 +86,12 @@ The sample connection expects MySQL at `localhost:3306`.
 mvn clean package
 ```
 
+### Step 5: Run the Application
+
+Open `src/main/java/com/vclass/Main.java` in VS Code and run the `main` method.
+
+Alternatively, use the configured Java run configuration.
+
 ## 5. Project Structure
 
 ```text
@@ -114,17 +120,14 @@ VClass/
 Faculty and Admins can create assignments through the **Assignment Management** section.
 
 Students can:
-
 1. Open the Assignments section.
 2. Select an assignment.
 3. Choose a file using the file chooser.
 4. Submit the assignment.
 
-The application copies submitted files into `uploads/submissions/` and stores their relative paths in the MySQL database.
+The application stores submitted files in `uploads/submissions/` and saves their relative paths in the MySQL database.
 
-- Maximum file size: 25 MB.
-- The `uploads/` directory is excluded from Git because it contains user-submitted files.
-- Re-submitting replaces the previously stored file.
+Files are limited to 25 MB. The `uploads/` directory is excluded from Git because it contains user-submitted files.
 
 ## 7. Source Code Documentation
 
