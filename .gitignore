@@ -61,3 +61,5 @@ work/maven-repository/
 
 # Local database configuration
 database.properties
+# Temporary extracted project backup
+restore-temp/
